@@ -32,13 +32,26 @@ def main():
     
 # Create a probabilty map for each boat
 def probMap():
-    map5 = []
+    boatmap = []
+    boat_length = 5
     for i in range(grid_size):
         row = []
         for j in range(grid_size):
-            row.append(False)
+            row.append(0)
 
-        map5.append(row)
+        boatmap.append(row)
+
+    for i in range(grid_size):      # Not adding 1 each time just making the value = 1
+        row = []
+        for j in range(grid_size):
+            if i+boat_length <= grid_size:
+                boatmap[i][j]+=1
+            elif j+boat_length <= grid_size:
+                boatmap[i][j] +=1
+            else:
+                continue
+    print(boatmap)
+
 
 def grid_creation(grid_size):
     grid = []
@@ -49,5 +62,6 @@ def grid_creation(grid_size):
 
         grid.append(row)
 
+probMap()
 main()
 
