@@ -23,6 +23,7 @@ grid_size = 10
 hitTarget = [] # This will record grid positions for where we have hit a target
 boatmap = []
 boatType = [5,4,3,3,1]
+hit_count = [] # Keeps track of how long boat is so it can be removed from list
 
 ##################################################################################################
 def main():
@@ -57,12 +58,25 @@ def main():
         if feedback == 'y':
             hitTarget.append(x_cord,y_cord) 
             destroy_boat()  # Destroy boat function
+    ###
+            # Remove boat size from boatType list
+            # Recalculate
         else:
             print()
 
 ##################################################################################################
+
+###
 # How will we find the rest of the boat, what happens if we hit the middle of the boatt
 def destroy_boat():
+    # While ship not destroyed
+        # Find highest value for adjacent coords
+        # if left or right then its horizontal
+        # if not horizontal, its vertical
+        # Loop till eith destroyed ship or miss
+            # If another hit, keep going in that direction +1 to hit_count 
+            # If miss, go opposite way from hitTarget coord
+
     print()
 
 ##################################################################################################
