@@ -7,7 +7,7 @@ Rules I am following:
     - 1 x 5 size boat
     - 1 x 4 size boat
     - 2 x 3 size boat
-    - 1 x 1 size boat
+    - 1 x 2 size boat
 - Boats can be placed anywhere on boat, even next to each other
 
 Method:
@@ -22,13 +22,13 @@ Method:
 grid_size = 10
 #hitTarget = [] # This will record grid positions for where we have hit a target
 boatmap = []
-boatType = [5,4,3,3,1]
+boatType = [5,4,3,3,2]
 trackingGrid = []
 #hit_count = 0 # Keeps track of how long boat is so it can be removed from list
 
 ##################################################################################################
 def main():
-
+    print('STARTING...')
     # Create tracking grid
     #trackingGrid = trackingGrid_creation()
     trackingGrid_creation()
@@ -65,7 +65,8 @@ def main():
             # Remove boat size from boatType list
             for i in range(len(boatType)):
                 if boatType[i] == boatLen:
-                    boatType.remove[i]
+                    boatType.pop(i)
+                    break
             hitTarget = []      #Should reset the list back to blank
 
             # Recalculate
@@ -74,6 +75,8 @@ def main():
         else:
             # Recalculate
             probMap()
+            
+    print('VICTORY, I crushed you')
 
 ##################################################################################################
 
@@ -87,12 +90,13 @@ def destroy_boat(hitTarget):
         # Loop till eith destroyed ship or miss
             # If another hit, keep going in that direction +1 to hit_count 
             # If miss, go opposite way from hitTarget coord
-    hit_count = 0   # Help us figure out the length of the boat
+    hit_count = 1   # Help us figure out the length of the boat
     destroyed = False   
 
     while destroyed == False:
 
-        print(compareValues(hitTarget))
+        coord, direction = compareValues(hitTarget)
+        print(coord) # Finds the best option out of the adjacent coords
 
         print("Hit or miss, H or M?")
         feedback = input().lower()
@@ -101,16 +105,113 @@ def destroy_boat(hitTarget):
             hit_count += 1
 
             print("Is ship destroyed? Y or N")
-            feedback = input().lower
+            feedback = input().lower()
             if feedback == 'y':
                 destroyed = True
                 break
 #########
             else:
+                x = 1
+                feedback1 = 'h'
                 # We need to find the rest of the boat
-                print()
+                # Figure out how we know if the bestCoord is in hozizontal or vertical direction to continue
+                if direction == 1:
+                    # coord + 1 in x direction
+                    # hit or miss
+                    # hit keep going
+                    # miss reset to hittarget and work backwards
+                    # hit of miss
+# WHILE target is hit, keep going in that direction and check if ship is destroyed
+# once that breaks other while loop until ship is destroyed in opposite direction
+                    while feedback1 == 'h':
+                        # print('YO: ', coord)
+                        # print('BooM: ', coord[0])
+                        # print('BooM: ', coord[1])
+                        # print('COD: ', trackingGrid[coord[0]+x][coord[1]])
+                        if trackingGrid[coord[0]+x][coord[1]] == False:
+                            trackingGrid[coord[0]+x][coord[1]] = True
+                            print(coord)
+                            print("Hit or miss, H or M?")
+                            feedback1 = input().lower()
+
+                            if feedback1 == 'h':
+                                hit_count += 1
+
+                                print("Is ship destroyed? Y or N")
+                                feedback = input().lower()
+                                if feedback == 'y':
+                                    destroyed = True
+                                    feedback1 = 'm' #Should break out of loop
+                                    break
+                                else: 
+                                    continue
+                        x += 1
+
+                    x = 2
+                    while destroyed == False:
+                        if trackingGrid[coord[0]-x][coord[1]] == False:
+                            trackingGrid[coord[0]-x][coord[1]] = True
+                            print(coord)
+                            print("Hit or miss, H or M?")
+                            feedback = input().lower()
+                            if feedback == 'h':
+                                hit_count += 1
+
+                                print("Is ship destroyed? Y or N")
+                                feedback = input().lower()
+                                if feedback == 'y':
+                                    destroyed = True
+                                    break
+                                else: 
+                                    continue
+                            else:
+                                print('ERROR, idk what happened but nowhere to hit ship')
+                        x += 1
+
+                else:
+                    while feedback1 == 'h':
+                        if trackingGrid[coord[0]][coord[1]+x] == False:
+                            trackingGrid[coord[0]][coord[1]+x]= True
+                            print(coord)
+                            print("Hit or miss, H or M?")
+                            feedback1 = input().lower()
+
+                            if feedback1 == 'h':
+                                hit_count += 1
+
+                                print("Is ship destroyed? Y or N")
+                                feedback = input().lower()
+                                if feedback == 'y':
+                                    destroyed = True
+                                    feedback1 = 'm' #Should break out of loop
+                                    break
+                                else: 
+                                    continue
+                        x += 1
+
+                    x = 2
+                    while destroyed == False:
+                        if trackingGrid[coord[0]][coord[1]-x] == False:
+                            trackingGrid[coord[0]][coord[1]-x] = True
+                            print(coord)
+                            print("Hit or miss, H or M?")
+                            feedback = input().lower()
+                            if feedback == 'h':
+                                hit_count += 1
+
+                                print("Is ship destroyed? Y or N")
+                                feedback = input().lower()
+                                if feedback == 'y':
+                                    destroyed = True
+                                    break
+                                else: 
+                                    continue
+                            else:
+                                print('ERROR, idk what happened but nowhere to hit ship')
+                        x += 1
 #########
         else:
+            # Boat was not hit so we find the best option out of remaining adjacent coords
             continue
         
     return hit_count
@@ -124,27 +225,34 @@ def compareValues(hitTarget):
     targets = []
 
     targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
-    targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
     targets.append((hitTarget[0][0], hitTarget[0][1]+1))
+    targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
     targets.append((hitTarget[0][0], hitTarget[0][1]-1))
 ### NOT WORKING
 ### The boat map indexing is not correct so its not comparing the coord values
     maxValue = 0
+### Dont think we need this
+    direction = 0   # Used to tell if we are moving in the x or y direction
+###
     bestCoord = hitTarget
-    print('HITTARGET: ', hitTarget[0])
-    print('Targets: ', targets)
-    print('Target 0 : ', targets[0])
-    print('ZING', boatmap[targets[0]])
+    # print('HITTARGET: ', hitTarget[0])
+    # print('Targets: ', targets)
+    # print('Target 0 : ', targets[0][0])
+    # print('ZING', boatmap[targets[0][0]][targets[0][1]])
 
     for i in range(len(targets)):
-        if boatmap[targets[i]] > maxValue and not trackingGrid[targets[i]]:
-            trackingGrid[targets[i]] = True
-            maxValue = boatmap[targets[i]]
-            bestCoord = targets[i]
-######
-            # Need to find a way to tell the function that we are going in that direction, till we miss and then go backwards
-######
-    return bestCoord
+        # First check if we have visited the coord before
+        if trackingGrid[targets[i][0]][targets[i][1]] == False:
+            if boatmap[targets[i][0]][targets[i][1]] > maxValue: # Checking that its the highest value
+                trackingGrid[targets[i][0]][targets[i][1]] = True 
+                maxValue = boatmap[targets[i][0]][targets[i][1]]
+                bestCoord = targets[i]
+                if i//2 == 0:
+                    direction = 1   # 1 means we are in the x direction
+                else:
+                    direction = 0   # 0 means y direction
+
+    return bestCoord, direction
 ##################################################################################################
 ##################################################################################################
 ##################################################################################################
@@ -173,6 +281,7 @@ def function_h(i, j, boat_length):
     while z < boat_length:
         if trackingGrid[i][j+z] == True:
             return
+        z += 1
     z = 0
     while z < boat_length:
         boatmap[i][j+z] += 1
@@ -183,6 +292,7 @@ def function_v(i, j, boat_length):
     while z < boat_length:
         if trackingGrid[i+z][j] == True:
             return
+        z += 1
     z = 0
     while z < boat_length:
         boatmap[i+z][j] += 1
@@ -199,12 +309,11 @@ def probMap():
             row.append(0)
 
         boatmap.append(row)
-
 # Time complexity is kinda high here
     # Loops through the list of boat sizes to be added on the probability map
     for x in range(len(boatType)):      # Feel this line could be better, currently works though
         boat_length = boatType[x]
-        for i in range(grid_size):   
+        for i in range(grid_size): 
             for j in range(grid_size):
                 # This line is used for recalculations
                 if trackingGrid[i][j] == False: # Will check to see if we have already checked the coord
