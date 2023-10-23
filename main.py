@@ -52,8 +52,7 @@ def main():
         x_cord, y_cord = largestNumber()
         trackingGrid[x_cord][y_cord] = True
 
-        print(x_cord, y_cord)
-        print()
+        print('(', x_cord,',', y_cord,')')
         print("Hit or miss, H or M?")
         feedback = input().lower()
 
@@ -71,11 +70,14 @@ def main():
 
             # Recalculate
             probMap()
-
+###
+        elif feedback == 'boat':
+            print(boatmap)
+###
         else:
             # Recalculate
             probMap()
-            
+
     print('VICTORY, I crushed you')
 
 ##################################################################################################
@@ -124,13 +126,14 @@ def destroy_boat(hitTarget):
 # WHILE target is hit, keep going in that direction and check if ship is destroyed
 # once that breaks other while loop until ship is destroyed in opposite direction
                     while feedback1 == 'h':
+                        print('X positive now')
                         # print('YO: ', coord)
                         # print('BooM: ', coord[0])
                         # print('BooM: ', coord[1])
                         # print('COD: ', trackingGrid[coord[0]+x][coord[1]])
                         if trackingGrid[coord[0]+x][coord[1]] == False:
                             trackingGrid[coord[0]+x][coord[1]] = True
-                            print(coord)
+                            print('(',coord[0]+x, coord[1],')')
                             print("Hit or miss, H or M?")
                             feedback1 = input().lower()
 
@@ -145,13 +148,18 @@ def destroy_boat(hitTarget):
                                     break
                                 else: 
                                     continue
+                    ###
+                            elif feedback1 == 'boat':
+                                print(boatmap)
+                    ###
                         x += 1
 
                     x = 2
                     while destroyed == False:
+                        print('X negative now')
                         if trackingGrid[coord[0]-x][coord[1]] == False:
                             trackingGrid[coord[0]-x][coord[1]] = True
-                            print(coord)
+                            print('(',coord[0]-x, coord[1],')')
                             print("Hit or miss, H or M?")
                             feedback = input().lower()
                             if feedback == 'h':
@@ -164,15 +172,21 @@ def destroy_boat(hitTarget):
                                     break
                                 else: 
                                     continue
+                    ###
+                            elif feedback == 'boat':
+                                print(boatmap)
+                    ###
                             else:
                                 print('ERROR, idk what happened but nowhere to hit ship')
                         x += 1
+                        print('X == ', x)
 
                 else:
                     while feedback1 == 'h':
+                        print('Y positive now')
                         if trackingGrid[coord[0]][coord[1]+x] == False:
                             trackingGrid[coord[0]][coord[1]+x]= True
-                            print(coord)
+                            print('(',coord[0], coord[1]+x,')')
                             print("Hit or miss, H or M?")
                             feedback1 = input().lower()
 
@@ -187,13 +201,19 @@ def destroy_boat(hitTarget):
                                     break
                                 else: 
                                     continue
+                    ###
+                            elif feedback == 'boat':
+                                print(boatmap)
+                    ###
                         x += 1
+                        print('X == ', x)
 
                     x = 2
                     while destroyed == False:
+                        print('Y negative now')
                         if trackingGrid[coord[0]][coord[1]-x] == False:
                             trackingGrid[coord[0]][coord[1]-x] = True
-                            print(coord)
+                            print('(',coord[0],',', coord[1]-x,')')
                             print("Hit or miss, H or M?")
                             feedback = input().lower()
                             if feedback == 'h':
@@ -208,8 +228,17 @@ def destroy_boat(hitTarget):
                                     continue
                             else:
                                 print('ERROR, idk what happened but nowhere to hit ship')
+                ###
+                        elif feedback == 'boat':
+                            print(boatmap)
+                ###
                         x += 1
+                        print('X == ', x)
 #########
+###
+        elif feedback == 'boat':
+            print(boatmap)
+###
         else:
             # Boat was not hit so we find the best option out of remaining adjacent coords
             continue
@@ -223,11 +252,71 @@ def destroy_boat(hitTarget):
 def compareValues(hitTarget):
 
     targets = []
+    # the direction will work
+    if hitTarget[0][0] >= 1 and hitTarget[0][0] <= 8 and hitTarget[0][1] >= 1 and hitTarget[0][1] <= 8:
+        print('00000000000')
+        targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0], hitTarget[0][1]+1))
+        targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0], hitTarget[0][1]-1))
 
-    targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
-    targets.append((hitTarget[0][0], hitTarget[0][1]+1))
-    targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
-    targets.append((hitTarget[0][0], hitTarget[0][1]-1))
+    # Corner of grid
+    elif hitTarget[0][0] == 0 and hitTarget[0][1] == 0:
+        print('1111111111')
+        targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0], hitTarget[0][1]+1))
+        # targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
+        # targets.append((hitTarget[0][0], hitTarget[0][1]-1))
+    elif hitTarget[0][0] == 0 and hitTarget[0][1] == 9:
+        print('2222222222')
+        # targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0], hitTarget[0][1]+1))
+        # targets.append((hitTarget[0][0], hitTarget[0][1]-1))
+    elif hitTarget[0][0] == 9 and hitTarget[0][1] == 0:
+        print('3333333333')
+        targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
+        # targets.append((hitTarget[0][0], hitTarget[0][1]+1))
+        # targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0], hitTarget[0][1]-1))
+    elif hitTarget[0][0] == 9 and hitTarget[0][1] == 9:
+        print('4444444444')
+        # targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
+        # targets.append((hitTarget[0][0], hitTarget[0][1]+1))
+        targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0], hitTarget[0][1]-1))
+
+    # Top row
+    elif hitTarget[0][0] == 0:
+        print('5555555555')
+        targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0], hitTarget[0][1]+1))
+        targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
+        # targets.append((hitTarget[0][0], hitTarget[0][1]-1))
+    # Bottom row
+    elif hitTarget[0][0] == 9:
+        print('66666666666')
+        targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
+        # targets.append((hitTarget[0][0], hitTarget[0][1]+1))
+        targets.append((hitTarget[0][0], hitTarget[0][1]-1))
+        targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
+
+# Direction doesnt line up with these ones might have to add if statement below
+    # Left colum
+    elif hitTarget[0][1] == 0:
+        print('777777777777')
+        targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0], hitTarget[0][1]+1))
+        targets.append((hitTarget[0][0], hitTarget[0][1]))  # Just a placehold so the direction thing lines up
+        targets.append((hitTarget[0][0], hitTarget[0][1]-1))
+    # Right colum
+    elif hitTarget[0][1] == 9:
+        print('888888888888')
+        # targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0], hitTarget[0][1]+1))
+        targets.append((hitTarget[0][0], hitTarget[0][1]))  # Just a placehold so the direction thing lines up
+        targets.append((hitTarget[0][0], hitTarget[0][1]-1))
 ### NOT WORKING
 ### The boat map indexing is not correct so its not comparing the coord values
     maxValue = 0
@@ -235,23 +324,39 @@ def compareValues(hitTarget):
     direction = 0   # Used to tell if we are moving in the x or y direction
 ###
     bestCoord = hitTarget
+    iValue = 0  # This will be used to make the max value location be labeled True on the trackingGrid
     # print('HITTARGET: ', hitTarget[0])
     # print('Targets: ', targets)
     # print('Target 0 : ', targets[0][0])
     # print('ZING', boatmap[targets[0][0]][targets[0][1]])
+    print('Tsarget: ', targets[0])
+    print('Target value 1: ', boatmap[targets[0][0]][targets[0][1]], ' ',trackingGrid[targets[0][0]][targets[0][1]])
+    print('Tsarget: ', targets[1])
+    print('Target value 2: ', boatmap[targets[1][0]][targets[1][1]], ' ',trackingGrid[targets[1][0]][targets[1][1]])
+    print('Tsarget: ', targets[2])
+    print('Target value 3: ', boatmap[targets[2][0]][targets[2][1]], ' ',trackingGrid[targets[2][0]][targets[2][1]])
+    print('Tsarget: ', targets[3])
+    print('Target value 4: ', boatmap[targets[3][0]][targets[3][1]], ' ',trackingGrid[targets[3][0]][targets[3][1]])
 
     for i in range(len(targets)):
         # First check if we have visited the coord before
+        print('ii val: ', i)
         if trackingGrid[targets[i][0]][targets[i][1]] == False:
             if boatmap[targets[i][0]][targets[i][1]] > maxValue: # Checking that its the highest value
-                trackingGrid[targets[i][0]][targets[i][1]] = True 
+##### THE tracking grid is messing up the true and falses, we should move the true line (underneath) to after once we find the max value
+## Otherwise everything goes true after the second loop
+                #trackingGrid[targets[i][0]][targets[i][1]] = True 
                 maxValue = boatmap[targets[i][0]][targets[i][1]]
                 bestCoord = targets[i]
-                if i//2 == 0:
+                iValue = i
+                print('i Value: ', i)
+                if i%2 == 0:
                     direction = 1   # 1 means we are in the x direction
                 else:
                     direction = 0   # 0 means y direction
+                print('Direction: ', direction)
 
+    trackingGrid[targets[iValue][0]][targets[iValue][1]] = True 
     return bestCoord, direction
 ##################################################################################################
 ##################################################################################################
@@ -303,6 +408,8 @@ def function_v(i, j, boat_length):
 # Create a probabilty map for where the most likely spot a boat could be
 # Creates blank grid
 def probMap():
+################## NOT updating the boatMap properly
+################## should be a 10x10 every recalculation, type boat in after every question to see
     for i in range(grid_size):
         row = []
         for j in range(grid_size):
