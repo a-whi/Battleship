@@ -410,6 +410,7 @@ def function_v(i, j, boat_length):
 def probMap():
 ################## NOT updating the boatMap properly
 ################## should be a 10x10 every recalculation, type boat in after every question to see
+    #boatmap = []
     for i in range(grid_size):
         row = []
         for j in range(grid_size):
