@@ -246,7 +246,7 @@ def destroy_boat(hitTarget):
     return hit_count
 
 ##################################################################################################
-##################################### WORK MORE ON ###############################################
+##################################################################################################
 ##################################################################################################
 # Compares the values of adjacent coords to determine most likely spot for boat
 def compareValues(hitTarget):
@@ -265,60 +265,55 @@ def compareValues(hitTarget):
         print('1111111111')
         targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
         targets.append((hitTarget[0][0], hitTarget[0][1]+1))
-        # targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
-        # targets.append((hitTarget[0][0], hitTarget[0][1]-1))
+
     elif hitTarget[0][0] == 0 and hitTarget[0][1] == 9:
         print('2222222222')
-        # targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
-        targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
-        targets.append((hitTarget[0][0], hitTarget[0][1]+1))
-        # targets.append((hitTarget[0][0], hitTarget[0][1]-1))
+        targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0], hitTarget[0][1]-1))
+
     elif hitTarget[0][0] == 9 and hitTarget[0][1] == 0:
         print('3333333333')
-        targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
-        # targets.append((hitTarget[0][0], hitTarget[0][1]+1))
-        # targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
-        targets.append((hitTarget[0][0], hitTarget[0][1]-1))
+        targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0], hitTarget[0][1]+1))
+
     elif hitTarget[0][0] == 9 and hitTarget[0][1] == 9:
         print('4444444444')
-        # targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
-        # targets.append((hitTarget[0][0], hitTarget[0][1]+1))
         targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
         targets.append((hitTarget[0][0], hitTarget[0][1]-1))
 
-    # Top row
+    # Left colum
     elif hitTarget[0][0] == 0:
         print('5555555555')
         targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
         targets.append((hitTarget[0][0], hitTarget[0][1]+1))
-        targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
-        # targets.append((hitTarget[0][0], hitTarget[0][1]-1))
-    # Bottom row
+        targets.append((hitTarget[0][0], hitTarget[0][1]))  # Place holder
+        targets.append((hitTarget[0][0], hitTarget[0][1]-1))
+
+    # Right colum
     elif hitTarget[0][0] == 9:
         print('66666666666')
-        targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
-        # targets.append((hitTarget[0][0], hitTarget[0][1]+1))
-        targets.append((hitTarget[0][0], hitTarget[0][1]-1))
         targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0], hitTarget[0][1]-1))
+        targets.append((hitTarget[0][0], hitTarget[0][1]))  # Place holder
+        targets.append((hitTarget[0][0], hitTarget[0][1]+1))
 
 # Direction doesnt line up with these ones might have to add if statement below
-    # Left colum
+    # Top row
     elif hitTarget[0][1] == 0:
         print('777777777777')
         targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
         targets.append((hitTarget[0][0], hitTarget[0][1]+1))
+        targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
         targets.append((hitTarget[0][0], hitTarget[0][1]))  # Just a placehold so the direction thing lines up
-        targets.append((hitTarget[0][0], hitTarget[0][1]-1))
-    # Right colum
+
+    # Bottom row
     elif hitTarget[0][1] == 9:
         print('888888888888')
-        # targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
-        targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
-        targets.append((hitTarget[0][0], hitTarget[0][1]+1))
-        targets.append((hitTarget[0][0], hitTarget[0][1]))  # Just a placehold so the direction thing lines up
+        targets.append((hitTarget[0][0]+1, hitTarget[0][1]))
         targets.append((hitTarget[0][0], hitTarget[0][1]-1))
-### NOT WORKING
-### The boat map indexing is not correct so its not comparing the coord values
+        targets.append((hitTarget[0][0]-1, hitTarget[0][1]))
+        targets.append((hitTarget[0][0], hitTarget[0][1]))   # Just a placehold so the direction thing lines up
+
     maxValue = 0
 ### Dont think we need this
     direction = 0   # Used to tell if we are moving in the x or y direction
