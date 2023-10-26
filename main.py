@@ -26,7 +26,6 @@ trackingGrid = []
 
 ##################################################################################################
 def main():
-    print('STARTING...')
     # Create tracking grid
     trackingGrid_creation()
 
@@ -51,7 +50,7 @@ def main():
         x_cord, y_cord = largestNumber()
         trackingGrid[x_cord][y_cord] = True
 
-        print('(', x_cord,',', y_cord,')')
+        print('(',x_cord,',',y_cord,')')
         print("Hit or miss, H or M?")
         feedback = input().lower()
 
@@ -118,7 +117,7 @@ def destroy_boat(hitTarget):
                     while feedback1 == 'h':
                         if trackingGrid[coord[0]+x][coord[1]] == False:
                             trackingGrid[coord[0]+x][coord[1]] = True
-                            print('(',coord[0]+x, coord[1],')')
+                            print('(',coord[0]+x,',', coord[1],')')
                             print("Hit or miss, H or M?")
                             feedback1 = input().lower()
 
@@ -143,7 +142,7 @@ def destroy_boat(hitTarget):
                     while destroyed == False:
                         if trackingGrid[coord[0]-x][coord[1]] == False:
                             trackingGrid[coord[0]-x][coord[1]] = True
-                            print('(',coord[0]-x, coord[1],')')
+                            print('(',coord[0]-x,',', coord[1],')')
                             print("Hit or miss, H or M?")
                             feedback = input().lower()
                             if feedback == 'h':
@@ -168,7 +167,7 @@ def destroy_boat(hitTarget):
                     while feedback1 == 'h':
                         if trackingGrid[coord[0]][coord[1]+x] == False:
                             trackingGrid[coord[0]][coord[1]+x]= True
-                            print('(',coord[0], coord[1]+x,')')
+                            print('(',coord[0],',', coord[1]+x,')')
                             print("Hit or miss, H or M?")
                             feedback1 = input().lower()
 
@@ -283,9 +282,7 @@ def compareValues(hitTarget):
         targets.append((hitTarget[0][0], hitTarget[0][1]))   # Just a placehold so the direction thing lines up
 
     maxValue = 0
-### Dont think we need this
     direction = 0   # Used to tell if we are moving in the x or y direction
-###
     bestCoord = hitTarget
     iValue = 0  # This will be used to make the max value location be labeled True on the trackingGrid
 
@@ -382,7 +379,6 @@ def probMap():
                         continue
 
 ##################################################################################################
-
 # This is a grid where every element is True or False, keeps track of where we have fired
 def trackingGrid_creation():
     # This could be made better I think, since i & j are not used
@@ -393,4 +389,23 @@ def trackingGrid_creation():
 
         trackingGrid.append(row)
 
+##################################################################################################
+def battleship_ascii_art():
+    ascii_art = [
+    " ______  ______  ______  ______  __      ______  ______  __  __  __  ______  ",
+    "/\  == \/\  __ \/\__  _\/\__  _\/\ \    /\  ___\/\  ___\/\ \_\ \/\ \/\  == \ ",
+    "\ \  __<\ \  __ \/_/\ \/\/_/\ \/\ \ \___\ \  __\\ \___  \ \  __ \ \ \ \  _-/ ",
+     " \ \_____\ \_\ \_\ \ \_\   \ \_\ \ \_____\ \_____\/\_____\ \_\ \_\ \_\ \_\   ",
+      "  \/_____/\/_/\/_/  \/_/    \/_/  \/_____/\/_____/\/_____/\/_/\/_/\/_/\/_/   ",
+      "________________________________________________________________________________",
+      "________________________________________________________________________________"
+    ] 
+
+    for line in ascii_art:
+        print(line)
+        
+    print('STARTING...')
+    print()
+
+battleship_ascii_art()
 main()
