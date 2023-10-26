@@ -1,4 +1,6 @@
 # Battleship
+
+How to play: 
 Battleship is a classic two-player strategy board game where each player arranges a fleet of ships on a grid and takes turns guessing the coordinates of their opponent's ships to sink them. The objective is to sink all of the opponent's ships before they do the same to you. The game typically includes various types of ships, such as aircraft carriers, battleships, cruisers, destroyers, and submarines, each with different lengths.
 ----------------------------------------------------------------------------------------------------------------------------
 I'm not a fan of battleship, but I'm even less of a fan of losing so I've made this program to help me win.
